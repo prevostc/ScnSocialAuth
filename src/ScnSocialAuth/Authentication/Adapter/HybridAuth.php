@@ -154,6 +154,7 @@ class HybridAuth extends AbstractAdapter implements ServiceManagerAwareInterface
             $mapper = $this->getZfcUserMapper();
             $user = $mapper->findById($localUserProvider->getUserId());
             if (!in_array($user->getState(), $zfcUserOptions->getAllowedLoginStates())) {
+                $this->hybridAuth->getAdapter($provider)->adapter->setUserUnconnected();
                 $authEvent->setCode(Result::FAILURE_UNCATEGORIZED)
                   ->setMessages(array('A record with the supplied identity is not active.'));
                 $this->setSatisfied(false);
